@@ -13,7 +13,7 @@ tree = bot.tree
 async def info(interaction: discord.Interaction):
     embed = discord.Embed(
         title="WOSS 09 bot",
-        description="This is the person bot of Murder of Codes!",
+        description="This is the custom bot made for the WOSS 09 discord server!",
         color=discord.Color.blue()
     )
     await interaction.response.send_message(embed=embed)
@@ -21,11 +21,11 @@ async def info(interaction: discord.Interaction):
 @tree.command(name="woss_announcements", description="Gets all the announcements from the WOSSAN website.")
 async def woss_announcements(interaction: discord.Interaction):
     announcements = retrieve_announcements()
-    await interaction.response.send_message(announcements)
+    await interaction.response.send_message(embed=announcements)
 
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
-    await tree.sync()  # Sync commands with Discord
+    await tree.sync()
 
 bot.run(os.getenv('TOKEN'))
