@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+from wossan import retrieve_announcements
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -19,8 +20,8 @@ async def info(interaction: discord.Interaction):
 
 @tree.command(name="woss_announcements", description="Gets all the announcements from the WOSSAN website.")
 async def woss_announcements(interaction: discord.Interaction):
-    translated_phrase = translate_phrase(phrase)
-    await interaction.response.send_message(translated_phrase)
+    announcements = retrieve_announcements()
+    await interaction.response.send_message(announcements)
 
 @bot.event
 async def on_ready():
