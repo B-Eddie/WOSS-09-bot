@@ -5,6 +5,7 @@ from wossan import retrieve_announcements
 
 intents = discord.Intents.default()
 intents.message_content = True
+intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 tree = bot.tree
@@ -24,13 +25,23 @@ async def woss_announcements(interaction: discord.Interaction):
     await interaction.response.send_message(embed=announcements)
 
 @bot.event
+async def on_member_join(member):
+    guild = member.guild
+    guild_id = 1225912243477024778  # Replace with the desired guild ID
+    if guild.id == guild_id:
+        channel_id = 1248103293406806077  # Replace with the desired channel ID
+        channel = guild.get_channel(channel_id)
+        if channel is not None:
+            await channel.send(f"Welcome {member.mention} to the server! We're glad to have you here. Please follow the following steps in order to verify:")
+            embed = discord.Embed(
+                title="Instructions",
+                description='''HDSB Registered Name:\nHDSB Email:\nVerification Keyword found in #rules:'''
+            )
+            await channel.send(embed=embed)
+
+@bot.event
 async def on_ready():
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
-    for guild in bot.guilds:
-        print(f'Bot added to server: {guild.name}')
-        channel = guild.system_channel
-        if channel is not None:
-            await channel.send('Hey everyone! I\'m the WOSS 09 discord bot!')
     await tree.sync()
 
 bot.run(os.getenv('TOKEN'))
