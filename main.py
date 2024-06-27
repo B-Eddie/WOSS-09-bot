@@ -26,6 +26,11 @@ async def woss_announcements(interaction: discord.Interaction):
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
+    for guild in bot.guilds:
+        print(f'Bot added to server: {guild.name}')
+        channel = guild.system_channel
+        if channel is not None:
+            await channel.send('Hey everyone! I\'m the WOSS 09 discord bot!')
     await tree.sync()
 
 bot.run(os.getenv('TOKEN'))
